@@ -1,0 +1,67 @@
+#
+#           d8888 888                     d8888
+#          d88888 888                    d88888
+#         d88P888 888                   d88P888
+#        d88P 888 88888b.   .d88b.     d88P 888 888d888 .d88b.  .d8888b
+#       d88P  888 888 "88b d8P  Y8b   d88P  888 888P"  d88P"88b 88K
+#      d88P   888 888  888 88888888  d88P   888 888    888  888 "Y8888b.
+#     d8888888888 888 d88P Y8b.     d8888888888 888    Y88b 888      X88
+#    d88P     888 88888P"   "Y8888 d88P     888 888     "Y88888  88888P'
+#                                                           888
+# ~$ Command Line Argument Processing Simplified       Y8b d88P
+#                                                       "Y88P"
+# Copyright (c) 2025, Abe Mishler
+# Licensed under the Universal Permissive License v 1.0
+# as shown at https://oss.oracle.com/licenses/upl/.
+#
+
+# Directories
+build/
+out/
+release/
+
+# Playground directories
+xcuserdata/
+playground.xcworkspace/
+
+# System files
+.DS_Store
+
+# VS Code
+settings.json
+
+# Prerequisites
+*.d
+
+# Java Bytecode
+*.class
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
