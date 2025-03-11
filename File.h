@@ -18,6 +18,7 @@
 #pragma once
 
 // System includes.
+// TODO: Why won't this compile?: #include <iosfwd>
 #include <fstream>
 #include <string>
 
