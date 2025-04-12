@@ -14,8 +14,6 @@
 # Licensed under the Universal Permissive License v 1.0
 # as shown at https://oss.oracle.com/licenses/upl/.
 #
-# Copyright (c) 2025, Abe Mishler <0abe@mishleremail.com>                
-#
 
 cmake_minimum_required(VERSION 3.8)
 message(STATUS "Using CMake version ${CMAKE_VERSION}")
