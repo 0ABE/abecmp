@@ -20,8 +20,8 @@
 #include "File.h"
 #include "Platform.h"
 
-// AbeArgs command line processing.
-#include <abeargs/abeargs.h>
+// AbeArgs includes.
+#include "abeargs.h"
 
 // System includes
 #include <cstring>

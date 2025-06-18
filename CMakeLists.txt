@@ -18,8 +18,9 @@
 cmake_minimum_required(VERSION 3.8)
 message(STATUS "Using CMake version ${CMAKE_VERSION}")
 
-project("AbeCmp" VERSION 0.1.250308)
+include(FetchContent)
 
+project("AbeCmp" VERSION 0.1.250617)
 configure_file(
   "${CMAKE_SOURCE_DIR}/AbeCmpConfig.h.in" 
   "${CMAKE_BINARY_DIR}/AbeCmpConfig.h"
@@ -49,10 +50,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # ---- Source code defined  --------------------------
 list(APPEND SRC_CODE
-  "abecmp.cpp"
-  "File.cpp"
-  "File.h"
-  "Platform.h"
+  "src/File.cpp"
+  "src/File.h"
+  "src/Platform.h"
+  "src/main.cpp"
 )
 
 # Path to the AbeArgs library
@@ -61,7 +62,19 @@ link_directories(/usr/lib/abeargs/)
 # Add source code to this project's executable.
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_CODE})
 
-target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
+# Fetch the AbeArgs library.
+FetchContent_Declare(
+  AbeArgs
+  GIT_REPOSITORY https://github.com/0ABE/abeargs.git
+  GIT_TAG        origin/master
+  SOURCE_SUBDIR lib
+)
+FetchContent_MakeAvailable(AbeArgs)
+message(STATUS "AbeArgs include dir: " ${ABEARGS_INCLUDE_DIRS})
 
-# Link the following libraries into the executable.
-target_link_libraries(${CMAKE_PROJECT_NAME} libAbeArgs.a)
+target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
+                           ${CMAKE_CURRENT_BINARY_DIR}
+                           ${ABEARGS_INCLUDE_DIRS})
+
+# Link the following libraries into the target executable.
+target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE AbeArgs)
