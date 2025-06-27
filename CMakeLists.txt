@@ -20,7 +20,7 @@ message(STATUS "Using CMake version ${CMAKE_VERSION}")
 
 include(FetchContent)
 
-project("AbeCmp" VERSION 0.1.250617)
+project("AbeCmp" VERSION 0.1.250626)
 configure_file(
   "${CMAKE_SOURCE_DIR}/AbeCmpConfig.h.in" 
   "${CMAKE_BINARY_DIR}/AbeCmpConfig.h"
@@ -55,9 +55,6 @@ list(APPEND SRC_CODE
   "src/Platform.h"
   "src/main.cpp"
 )
-
-# Path to the AbeArgs library
-link_directories(/usr/lib/abeargs/)
 
 # Add source code to this project's executable.
 add_executable(${CMAKE_PROJECT_NAME} ${SRC_CODE})

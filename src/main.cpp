@@ -68,8 +68,8 @@ main(int argc, char** argv)
     const int HELP_ID = 6;    // Print out usage help.
 
     AbeArgs::Parser parser;
-    parser.addArgument({ AbeArgs::REQUIRED, FILE_A_ID, "a", "file-a", "File a to compare.", AbeArgs::FILE_t, 1 });
-    parser.addArgument({ AbeArgs::REQUIRED, FILE_B_ID, "b", "file-b", "File b to compare.", AbeArgs::FILE_t, 1 });
+    parser.addArgument({ AbeArgs::REQUIRED, FILE_A_ID, "a", "file-a", "File a to compare.", AbeArgs::FILE_TYPE, 1 });
+    parser.addArgument({ AbeArgs::REQUIRED, FILE_B_ID, "b", "file-b", "File b to compare.", AbeArgs::FILE_TYPE, 1 });
     parser.addArgument({ AbeArgs::SWITCH, FILE_IG_ID, "i", "ignore", "Ignore differences in line endings." });
     parser.addArgument({ AbeArgs::SWITCH, QUIET_ID, "q", "quiet", "Only print the final result." });
     parser.addArgument({ AbeArgs::X_SWITCH, VERSION_ID, "v", "version", "Show version information and exit." });
