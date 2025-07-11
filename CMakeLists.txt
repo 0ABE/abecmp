@@ -20,7 +20,7 @@ message(STATUS "Using CMake version ${CMAKE_VERSION}")
 
 include(FetchContent)
 
-project("AbeCmp" VERSION 0.1.250626)
+project("AbeCmp" VERSION 0.1.250710)
 configure_file(
   "${CMAKE_SOURCE_DIR}/AbeCmpConfig.h.in" 
   "${CMAKE_BINARY_DIR}/AbeCmpConfig.h"
