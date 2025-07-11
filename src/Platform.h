@@ -19,22 +19,38 @@
 
 namespace AbeCmp {
 
+// @brief Get the architecture of the host system.
+//        Returns a string representing the architecture type.
+//        This function is useful for determining the architecture of the system on which the application is running.
+//        It can be used to optimize performance or compatibility based on the architecture.
 const char*
 getArch()
 {
-    static const char* amd64 = "amd64";
-    static const char* x86_64 = "64-bit x86";
     static const char* x86_32 = "32-bit x86";
+    static const char* x86_64 = "64-bit x86";
+    static const char* amd64 = "amd64";
+    static const char* unknown = "unknown";
 
-#if defined(__amd64__)
-    return "amd64";
-#elif defined(__x86_64__)
-    return x86_64;
-#elif defined(i386) || defined(i686)
+#if defined(i386) || defined(i686) // 32-bit x86 architectures
     return x86_32;
+#elif defined(__x86_64__) // 64-bit x86 architectures
+    return x86_64;
+#elif defined(_M_IX86)    // Microsoft compiler for 32-bit x86
+    return x86_32;
+#elif defined(_M_X64)     // Microsoft compiler for 64-bit x86
+    return x86_64;
+#elif defined(__amd64__)  // 64-bit AMD architectures
+    return amd64;
+#elif defined(__amd64)    // 64-bit AMD architectures (older compilers)
+    return amd64;
+#else
+    return unknown;
 #endif
 }
 
+// @brief Get the type of host system.
+//        Returns a string representing the host type.
+//        This function is useful for determining the environment in which the application is running.
 const char*
 getHostType()
 {

@@ -32,9 +32,9 @@ class File
 
     // Close the file.
     bool close();
-    long getLineCount() const { return _line_count; }
-    std::string getLineEnding() const { return _line_ending.first; }
-    std::string getName() const { return _name; }
+    long getLineCount() const { return m_line_count; }
+    std::string getLineEnding() const { return m_line_ending.first; }
+    std::string getName() const { return m_name; }
     const char* getPrettyLE() const;
     // Open the file (sets the path/name).
     bool open(const std::string& name);
@@ -53,13 +53,13 @@ class File
 
   private:
     // Object to open and read lines in the file.
-    std::ifstream _file;
+    std::ifstream m_file;
     // Count the lines in each file. They have to be the same.
-    long _line_count = 0;
+    long m_line_count = 0;
     // Store the line ending information to use for this file.
-    std::pair<std::string, const char*> _line_ending;
+    std::pair<std::string, const char*> m_line_ending;
     // Store the path/name of the file.
-    std::string _name = {};
+    std::string m_name = {};
 };
 
 } // namespace AbeCmp

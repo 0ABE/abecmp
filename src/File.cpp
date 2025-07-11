@@ -35,30 +35,34 @@ File::~File()
 bool
 File::close()
 {
-    if (_file.is_open())
-        _file.close();
-    return !_file.is_open();
+    if (m_file.is_open())
+        m_file.close();
+    return !m_file.is_open();
 }
 
 const char*
 File::getPrettyLE() const
 {
-    if (_line_ending.second == lf_le)
+    if (m_line_ending.second == lf_le)
         return pretty_lf;
-    else if (_line_ending.second == crlf_le)
+    else if (m_line_ending.second == crlf_le)
         return pretty_crlf;
     else
         return pretty_unknown;
 }
 
+// @brief Initialize the line ending member by reading the file char by char.
+//        If a line ending is found, reset the cursor and return true.
+//        If no line ending is found, set the line ending to unknown and return false.
+//        This is used to determine the line ending type of the file.
 bool
-AbeCmp::File::initLE()
+File::initLE()
 {
     char le_buf[3] = { '\0', '\0', '\0' };
     char c = '\0';
-    while (!_file.eof()) {
+    while (!m_file.eof()) {
         // Read the file char by char.
-        _file.get(c);
+        m_file.get(c);
         // Fill up the line ending buffer...
         le_buf[0] = le_buf[1];
         // left shifting the buffer contents with each read...
@@ -67,30 +71,34 @@ AbeCmp::File::initLE()
         if (le_buf[0] == crlf_le[0] && le_buf[1] == crlf_le[1]) {
             // Matches crlf.
             resetCursor();
-            _line_ending = { "dos |crlf", crlf_le };
+            m_line_ending = { "dos |crlf", crlf_le };
             return true;
         }
         if (le_buf[1] == lf_le[0]) {
             // Matches lf.
             resetCursor();
-            _line_ending = { "unix|  lf", lf_le };
+            m_line_ending = { "unix|  lf", lf_le };
             return true;
         }
     }
     // There was no match to a known line ending.
-    _line_ending = { "unknown", unknown_le };
+    m_line_ending = { "unknown", unknown_le };
     return false;
 }
 
+// @brief Initialize the line_count member by reading the file line by line.
+//        This is used to count the lines in the file.
+//        It also resets the cursor to the beginning of the file.
+//        This is called after the line ending is determined.
 void
-AbeCmp::File::initLineCount()
+File::initLineCount()
 {
-    _line_count = 0;
+    m_line_count = 0;
     std::string line_buf = {};
     // Read each line into the temp line_buf, based on the the line ending that was found.
-    while (getline(_file, line_buf, *_line_ending.second)) {
+    while (getline(m_file, line_buf, *m_line_ending.second)) {
         // Count the lines with each line read.
-        ++_line_count;
+        ++m_line_count;
         // Don't double count lines.
         skipCRLF();
     }
@@ -98,48 +106,53 @@ AbeCmp::File::initLineCount()
 }
 
 bool
-AbeCmp::File::open(const std::string& name)
+File::open(const std::string& name)
 {
-    _name = name;
-    _file.open(name, std::ios::in);
-    if (_file.is_open())
+    m_name = name;
+    m_file.open(name, std::ios::in);
+    if (m_file.is_open())
         if (initLE())
             initLineCount();
         else
             return close();
 
-    return _file.is_open();
+    return m_file.is_open();
 }
 
 void
-AbeCmp::File::resetCursor()
+File::resetCursor()
 {
-    if (!_file.is_open())
+    if (!m_file.is_open())
         return;
 
-    _file.clear();
-    _file.seekg(0, std::ios::beg);
+    m_file.clear();
+    m_file.seekg(0, std::ios::beg);
 }
 
+// @brief Skip a whole CRLF ending to avoid double counting the LF in CRLF.
+//        This is only needed for CRLF line endings.
+//        If the line ending is LF, this does nothing.
 void
-AbeCmp::File::skipCRLF()
+File::skipCRLF()
 {
-    if (_line_ending.second == crlf_le) {
+    if (m_line_ending.second == crlf_le) {
         // Peek for a LF after a CR.
-        char p = _file.peek();
+        char p = m_file.peek();
         if (p == *lf_le) {
             // Found it, throw it away.
-            _file.get(p);
+            m_file.get(p);
         }
     }
 }
 
+// @brief Read a line and return it as a string.
 std::string
-AbeCmp::File::readLine(bool with_pretty_le)
+File::readLine(bool with_pretty_le)
 {
-    // Read until the known line ending, filling the member _current_line.
+    // Read until the known line ending, filling the line buffer.
+    // If with_pretty_le is true, append the pretty line ending to the line buffer.
     std::string line_buf = {};
-    getline(_file, line_buf, *_line_ending.second);
+    getline(m_file, line_buf, *m_line_ending.second);
     // Don't double count lines.
     skipCRLF();
     if (with_pretty_le)
